@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+// App.js
+import { lazy, Suspense } from 'react';
+import { Routes, Route } from 'react-router-dom';
 
-function App() {
+// import NavBar from './Components/NavBar';
+const Dashboard = lazy(() => import('./Components/Dashboard'));
+const TaskForm = lazy(() => import('./Components/TaskForm'));
+const NoMatch = lazy(() => import('./Components/NoMatch'));
+const StartPage = lazy(() => import('./Components/StartPage'));
+
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {/* <NavBar /> */}
+      <Suspense fallback={<div className="container">Loading...</div>}>
+        <Routes>
+          <Route path="/" element={<StartPage />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/task/create" element={<TaskForm />} />
+          <Route path="*" element={<NoMatch />} />
+        </Routes>
+      </Suspense>
+    </>
   );
-}
+};
 
 export default App;
